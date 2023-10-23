@@ -4,27 +4,30 @@
   become: true
   pre_tasks:
 
-  - name: update repository index (CentOS)
-    tags: always
+  - name: Install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install updates (CentOS)
     yum:
-       update_cache: yes
-    changed_when: false
+      update_only: yes
+      update_cache: yes
     when: ansible_distribution == "CentOS"
 
-  - name: install updates (Ubuntu)
-    tags: always
-    apt:
-       update_cache: yes
-    changed_when: false
-    when: ansible_distribution == "Ubuntu"
+  - name: install wget (CentOS)
+    yum:
+      name: wget
+      state: latest
+    when: ansible_distribution == "CentOS"
 
 - hosts: u_server
   become: true
   roles:
-     - u_server
+    - u_server
 
 - hosts: c_server
   become: true
   roles:
-     - c_server
-
+    - c_server
