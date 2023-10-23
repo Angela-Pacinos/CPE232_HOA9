@@ -1,0 +1,6 @@
+---
+
+- name: Install prometheus (Ubuntu)
+  apt:
+    name: prometheus
+    state: latest
